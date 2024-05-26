@@ -1,7 +1,8 @@
 #ifndef studentai_h
 #define studentai_h
+
 #include <bits/stdc++.h>
-using namespace std;
+#include "vector.h"
 
 class zmogus{
     protected:
@@ -38,30 +39,35 @@ class zmogus{
         return *this;
     }
 };
+
+
 class studentas : public zmogus{
     private:
-        // string vardas_;
-        // string pavarde_;
-        vector<int> pazymiai_;
-        int egzaminas_ = 0;
-        double galutinis_ = 0, mediana_ = 0;
+       std::string vardas_;
+       std::string pavarde_;
+        Vector<int> pazymiai_;
+        int egzaminas_;
+        double galutinis_, mediana_;
     public:
-        studentas() = default;
+        studentas() : galutinis_(0), egzaminas_(0), mediana_(0) {}
         studentas(std::istream& is);
-        ~studentas() = default;
+        ~studentas() {} // I. destructor
 
-        studentas(const studentas& other)
-            : vardas_(other.vardas_), pavarde_(other.pavarde_), pazymiai_(other.pazymiai_),
+        studentas(const studentas& other) // II. copy constructor
+            : zmogus(other), pazymiai_(other.pazymiai_),
               egzaminas_(other.egzaminas_), galutinis_(other.galutinis_), mediana_(other.mediana_) {}
 
-        studentas(studentas&& other) noexcept
-            : vardas_(move(other.vardas_)), pavarde_(move(other.pavarde_)),
-              pazymiai_(move(other.pazymiai_)), egzaminas_(other.egzaminas_),
-              galutinis_(other.galutinis_), mediana_(other.mediana_) {}
+        studentas(studentas&& other) noexcept // III. move constructor
+            : zmogus(std::move(other)),
+              pazymiai_(std::move(other.pazymiai_)), egzaminas_(other.egzaminas_),
+              galutinis_(other.galutinis_), mediana_(other.mediana_) {
+                other.egzaminas_ = NULL;
+                other.galutinis_ = NULL;
+                other.mediana_ = NULL;
+                }
 
-        studentas& operator=(const studentas& other) {
-            vardas_ = other.vardas_;
-            pavarde_ = other.pavarde_;
+        studentas& operator=(const studentas& other) { // IV. copy assignment
+            zmogus::operator=(other);
             pazymiai_ = other.pazymiai_;
             egzaminas_ = other.egzaminas_;
             galutinis_ = other.galutinis_;
@@ -69,26 +75,28 @@ class studentas : public zmogus{
             return *this;
         }
 
-        studentas& operator=(studentas&& other) noexcept {
-            vardas_ = move(other.vardas_);
-            pavarde_ = move(other.pavarde_);
-            pazymiai_ = move(other.pazymiai_);
+        studentas& operator=(studentas&& other) noexcept { // V. move assignment
+            zmogus::operator=(std::move(other));
+            pazymiai_ = std::move(other.pazymiai_);
             egzaminas_ = other.egzaminas_;
             galutinis_ = other.galutinis_;
             mediana_ = other.mediana_;
+            other.egzaminas_ = NULL;
+            other.galutinis_ = NULL;
+            other.mediana_ = NULL;
             return *this;
         }
 
-        inline std::string vardas() const { return vardas_; }
-        inline std::string pavarde() const { return pavarde_; }
-        inline std::vector<int> pazymiai() const { return pazymiai_; }
+        inline std::string vardas() const override { return vardas_; }
+        inline std::string pavarde() const override { return pavarde_; }
+        inline Vector<int> pazymiai() const { return pazymiai_; }
         inline int egzaminas() const { return egzaminas_; }
         inline double galutinis() const { return galutinis_; }
         inline double mediana() const { return mediana_; }
 
-        inline void setVardas(const std::string& vardas) { vardas_ = vardas; }
-        inline void setPavarde(const std::string& pavarde) { pavarde_ = pavarde; }
-        inline void setPazymiai(const std::vector<int>& pazymiai) { pazymiai_ = pazymiai; }
+        inline void setVardas(const std::string& vardas) override { vardas_ = vardas; }
+        inline void setPavarde(const std::string& pavarde) override { pavarde_ = pavarde; }
+        inline void setPazymiai(const Vector<int>& pazymiai) { pazymiai_ = pazymiai; }
         inline void setEgzaminas(int egzaminas) { egzaminas_ = egzaminas; }
         inline void setGalutinis(double galutinis) { galutinis_ = galutinis; }
         inline void setMediana(double mediana) { mediana_ = mediana; }
@@ -97,29 +105,29 @@ class studentas : public zmogus{
 
         friend std::istream& operator>>(std::istream& is, studentas& s);
         friend std::ostream& operator<<(std::ostream& os, const studentas& s);
-
 };
 
-void balo_skaiciavimas(studentas &);
-void vardo_skaitymas(studentas &);
-void pazymio_skaitymas(studentas &);
+void baloSkaiciavimas(studentas &);
+void vardoSkaitymas(studentas &);
+void pazymiuSkaitymas(studentas &);
 void generuoti_varda(studentas &);
 void generuoti_pazymius(int, studentas &);
 void generuoti_egzamina(studentas &);
 void test();
 
-bool rikiavimas_vardas(const studentas &, const studentas &);
-bool rikiavimas_pavarde(const studentas &, const studentas &);
-bool rikiavimas_galutinis(const studentas &, const studentas &);
-bool rikiavimas_mediana(const studentas &, const studentas &);
+bool sortbyVardas(const studentas &, const studentas &);
+bool sortbyPavarde(const studentas &, const studentas &);
+bool sortbyGalutinis(const studentas &, const studentas &);
+bool sortbyMediana(const studentas &, const studentas &);
 bool compareByGalutinis(const double b, const studentas& a);
 bool compareByMediana(const double b, const studentas& a);
 
 template <typename Container>
-void failo_skaitymas(std::ifstream &, Container&);
-void failo_generavimas(int, std::string);
+void failoSkaitymas(std::ifstream &, Container&);
+void failoGeneravimas(int, std::string);
+bool yraint(std::string);
 void spausdinimas(std::vector<studentas> &);
 void rusiavimas(std::vector<studentas>&);
-void paskutine(int, std::string); 
+void uzd4(int, std::string);
 
 #endif
