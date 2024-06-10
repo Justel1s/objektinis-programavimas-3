@@ -6,7 +6,7 @@ int main()
 {
     srand(time(nullptr));
 
-    vector<studentas> v;
+    Vector<studentas> v;
     while(true)
     {
         int variantas;
@@ -46,18 +46,32 @@ int main()
         }
         if(variantas == 4)
         {
-            ifstream fd("studentai1000000.txt");
-            failoSkaitymas(fd, v);
-            fd.close();
-            break;
+            do{
+                try{
+                    cout << "Koki faila norite skaityti?\n";
+                    string failas;
+                    cin >> failas;
+                    ifstream fd(failas);
+                    if(!fd.good()) throw runtime_error("Netinkama ivestis");
+                    failoSkaitymas(fd, v);
+                    fd.close();
+                    break;
+                }
+                catch(const std::exception& e){
+                    cout << "Netinkama ivestis. Failas neegzistuoja. \n";
+                    cin.clear();
+                    cin.ignore(100, '\n');
+                }
+            }
+            while(true);
         }
         if(variantas == 5) break;
 		if(variantas == 6){
 			uzd4(1000, "studentai1000.txt");
-			// uzd4(10000, "studentai10000.txt");
-			// uzd4(100000, "studentai100000.txt");
-			// uzd4(1000000, "studentai1000000.txt");
-			// uzd4(10000000, "studentai10000000.txt");
+			uzd4(10000, "studentai10000.txt");
+			uzd4(100000, "studentai100000.txt");
+			uzd4(1000000, "studentai1000000.txt");
+			uzd4(10000000, "studentai10000000.txt");
 			continue;
 		}
         baloSkaiciavimas(s);

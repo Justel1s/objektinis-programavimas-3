@@ -1,7 +1,15 @@
-#ifndef studentai_h
-#define studentai_h
+#ifndef BIBLIOTEKA_H
+#define BIBLIOTEKA_H
 
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
+#include <deque>
+#include <iostream>
+#include <sstream>
+#include <numeric>
+#include <fstream>
+#include <list>
+#include <stack>
+#include <vector>
 #include "vector.h"
 
 class zmogus{
@@ -43,15 +51,15 @@ class zmogus{
 
 class studentas : public zmogus{
     private:
-       std::string vardas_;
-       std::string pavarde_;
-        Vector<int> pazymiai_;
+    //    std::string vardas_;
+    //    std::string pavarde_;
+        std::Vector<int> pazymiai_;
         int egzaminas_;
         double galutinis_, mediana_;
     public:
-        studentas() : galutinis_(0), egzaminas_(0), mediana_(0) {}
+        studentas() : egzaminas_(0), galutinis_(0), mediana_(0) {}
         studentas(std::istream& is);
-        ~studentas() {} // I. destructor
+        virtual ~studentas() {} // I. destructor
 
         studentas(const studentas& other) // II. copy constructor
             : zmogus(other), pazymiai_(other.pazymiai_),
@@ -89,14 +97,14 @@ class studentas : public zmogus{
 
         inline std::string vardas() const override { return vardas_; }
         inline std::string pavarde() const override { return pavarde_; }
-        inline Vector<int> pazymiai() const { return pazymiai_; }
+        inline std::Vector<int> pazymiai() const { return pazymiai_; }
         inline int egzaminas() const { return egzaminas_; }
         inline double galutinis() const { return galutinis_; }
         inline double mediana() const { return mediana_; }
 
         inline void setVardas(const std::string& vardas) override { vardas_ = vardas; }
         inline void setPavarde(const std::string& pavarde) override { pavarde_ = pavarde; }
-        inline void setPazymiai(const Vector<int>& pazymiai) { pazymiai_ = pazymiai; }
+        inline void setPazymiai(const std::Vector<int>& pazymiai) { pazymiai_ = pazymiai; }
         inline void setEgzaminas(int egzaminas) { egzaminas_ = egzaminas; }
         inline void setGalutinis(double galutinis) { galutinis_ = galutinis; }
         inline void setMediana(double mediana) { mediana_ = mediana; }
@@ -126,8 +134,8 @@ template <typename Container>
 void failoSkaitymas(std::ifstream &, Container&);
 void failoGeneravimas(int, std::string);
 bool yraint(std::string);
-void spausdinimas(std::vector<studentas> &);
-void rusiavimas(std::vector<studentas>&);
+void spausdinimas(std::Vector<studentas> &);
+void rusiavimas(std::Vector<studentas>&);
 void uzd4(int, std::string);
 
 #endif

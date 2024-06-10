@@ -188,7 +188,7 @@ void failoSkaitymas(ifstream &fd, Container &v)
     string s;
     std::stringstream buffer;
     buffer << fd.rdbuf();
-    if constexpr (std::is_same<Container, std::vector<studentas>>::value)
+    if constexpr (std::is_same<Container, std::Vector<studentas>>::value)
     {
         std::stringstream::pos_type pos = buffer.tellg();
         while(!buffer.eof())
@@ -221,7 +221,7 @@ template void failoSkaitymas<Vector<studentas>>(std::ifstream &, Vector<studenta
 
 
 
-void spausdinimas(vector<studentas> &v)
+void spausdinimas(Vector<studentas> &v)
 {
     stringstream spausdinimas;
     //Spausdinimas
@@ -261,7 +261,7 @@ bool sortbyMediana(const studentas &a, const studentas &b)
     return (a.mediana() > b.mediana());
 }
 
-void rusiavimas(vector<studentas>& v)
+void rusiavimas(Vector<studentas>& v)
 {
     cout << "Pagal ka norite rusiuoti? 1 - vardas, 2 - pavarde, 3 - Galutinis vidurkis, 4 - Galutinis mediana, 5 - nerusiuoti\n";
     int variantas;
@@ -443,12 +443,25 @@ void uzd4(int dydis, string pavadinimas)
 
     cout << "\n\nVector\n";
     ifstream fd(pavadinimas);
-    laikoSkaiciavimasStrukturos<vector<studentas>>(fd);
+    laikoSkaiciavimasStrukturos<Vector<studentas>>(fd);
     fd.close();
 
     cout << "\n\nVECTOR2\n";
     fd.open(pavadinimas);
     laikoSkaiciavimasStrukturos<Vector<studentas>>(fd);
     fd.close();
+
+    cout << "\n\nList\n";
+    fd.open(pavadinimas);
+    laikoSkaiciavimasStrukturos<list<studentas>>(fd);
+    fd.close();
+
+    cout << "\n\nDeque\n";
+    fd.open(pavadinimas);
+    laikoSkaiciavimasStrukturos<deque<studentas>>(fd);
+    fd.close();
+
+
     return;
 }
+
